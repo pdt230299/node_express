@@ -1,0 +1,33 @@
+{
+  "name": "myapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdt230299/node_express.git"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "express",
+    "js",
+    "learn"
+  ],
+  "author": "pdt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pdt230299/node_express/issues"
+  },
+  "homepage": "https://github.com/pdt230299/node_express#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
