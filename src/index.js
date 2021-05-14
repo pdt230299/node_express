@@ -3,31 +3,51 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const morgan = require('morgan');
 const route = require('./routes');
+const db = require('./config/db');
+const methodOverride = require('method-override');
 
-const app = express();
+const app = express();//https://stackoverflow.com/questions/23509162/expressjs-javascript-fundamentals-exports-module-exports-createapplication
 const port = 3000;
 
-// morgan show trạng thái của request HTTP
-app.use(morgan('combined'));
+
+db.connect(); // export ra object thì khi viết sẽ rõ nghĩa hơn---Connect database
+
+// ----------------------------app.use------------------------------------------------------------------------------------
+
+app.use(morgan('combined'));// morgan show trạng thái của request HTTP
 app.use(express.static(path.join(__dirname, 'public'))) ;
-//middleware xử lí dữ liệu phương thức post
+
 app.use(express.urlencoded({
   extended : true
-}));
-//XMLhttpRequest,fetch,axios thì sử dụng .json()
-app.use(express.json())
+}));//middleware xử lí dữ liệu phương thức post
 
-// Template Engine 
+app.use(express.json());//XMLhttpRequest,fetch,axios thì sử dụng .json()
+
+app.use(methodOverride('_method'));// method-override
+// ----------------------------app.use----------------------------------------------------------------------------------------------------------------------
+
+// ----------------------------app.engine------------------------------------------------------------------------------------
 app.engine('hbs', exphbs({
-  extname: '.hbs'
+    extname: '.hbs', // Sử dụng express-handbar được base trên handbarjs // set view engine có file là đuôi .hbs
+    helpers: {
+       sum:(a,b)=>a+b,
+    }
 }));
-app.set('view engine', 'hbs');
-//Set đường dẫn cho file view vì n khác mặc định
-app.set('views',path.join(__dirname,'resources/views'));
+// ----------------------------app.engine------------------------------------------------------------------------------------
 
+// ----------------------------app.set------------------------------------------------------------------------------------
+
+app.set('view engine', 'hbs');
+
+//Set đường dẫn cho file view vì n khác mặc định
+app.set('views',path.join(__dirname,'resources','views'));//resources/views
+// ----------------------------app.set------------------------------------------------------------------------------------
+
+
+//Route
 route(app);
 
 //Listen port
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`App listening at http://localhost:${port}`)
 })
